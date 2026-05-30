@@ -1,6 +1,7 @@
 import "../styles/Button.css";
 import { cn } from "../lib/utils/utils";
 
+/// A reusable Button component that supports different variants and sizes.
 export default function Button({
   children,
   variant = "primary",
