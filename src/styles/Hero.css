@@ -1,0 +1,112 @@
+@reference "tailwindcss";
+
+/* HERO */
+
+.hero-section {
+    @apply w-full min-h-[60vh]
+
+  flex items-center justify-center
+  rounded-b-[40px];
+
+  background-size: cover;
+  background-position: center;
+
+  position: relative;
+
+  transition: background-image 1s ease-in-out;
+
+  overflow: hidden;
+    box-shadow: 0 20px 40px rgba(9, 46, 230, 0.2);
+
+}
+
+/* Overlay */
+
+.hero-overlay {
+  @apply absolute inset-0;
+
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* Content */
+
+.hero-content {
+  @apply relative z-10
+  w-[90%] max-w-6xl;
+}
+
+/* Search Bar */
+
+.destination-search {
+  @apply flex items-center
+  bg-white rounded-xl
+  overflow-hidden shadow-xl;
+}
+
+.destination-search .icon {
+  @apply text-gray-500 text-xl mx-4;
+}
+
+.destination-search input {
+  @apply flex-1 py-4 px-2 outline-none text-lg;
+}
+
+.search-btn {
+  @apply  text-blue-600 font-semibold text-lg rounded-r-xl
+  px-6 py-4 cursor-pointer
+ transition-all duration-300 hover:text-blue-300;}
+
+/* Bottom Filters */
+
+.booking-filters {
+  @apply grid grid-cols-3 gap-6 mt-8;
+}
+
+.filter-box {
+  @apply flex flex-col;
+}
+
+.filter-box label {
+  @apply text-white text-xl font-semibold mb-2;
+}
+
+.input-box {
+  @apply bg-white rounded-xl
+  px-4 py-4 shadow-lg
+  flex items-center gap-3;
+}
+
+/* Bottom Shadow */
+
+.hero-section::after {
+  content: "";
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 120px;
+
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.4),
+    transparent
+  );
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+  .hero-section {
+    @apply h-[650px];
+  }
+
+  .booking-filters {
+    @apply grid-cols-1;
+  }
+
+  .destination-search input {
+    @apply text-sm;
+  }
+}
