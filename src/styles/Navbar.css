@@ -1,0 +1,200 @@
+@reference "tailwindcss";
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar {
+  @apply flex items-center justify-between
+  px-6 py-2 border-b border-gray-200
+  bg-linear-to-r from-white to-blue-500;
+}
+
+/* =========================
+   LEFT SIDE
+========================= */
+
+.navbar-logo {
+  @apply flex items-center gap-3 ;
+  flex-shrink: 0;
+}
+
+.navbar-logo img {
+  @apply w-auto h-8  ;
+    object-fit: contain;
+}
+
+.navbar-logo h1 {
+  @apply text-2xl font-bold ;
+  color:var(--text-active);
+  white-space: nowrap;
+}
+
+/* =========================
+   RIGHT SIDE
+========================= */
+
+.navbar-right {
+  @apply flex items-center gap-8;
+  flex-shrink: 0;
+}
+
+.navbar-menu {
+  @apply flex items-center gap-8;
+  flex-shrink: 0;
+}
+
+.navbar-menu li {
+  @apply text-gray-700 font-medium cursor-pointer transition-colors duration-200 hover:text-blue-600;
+  white-space: nowrap;
+}
+
+.profile {
+  @apply cursor-pointer;
+  flex-shrink: 0;
+}
+
+.profile img {
+  @apply w-12 h-12 rounded-full object-cover border border-gray-200;
+  transition: transform 0.2s ease;
+}
+
+.profile img:hover {
+  transform: scale(1.05);
+}
+
+/* =========================
+   DROPDOWN
+========================= */
+
+.profile-wrapper {
+  @apply relative;
+}
+
+.dropdown-menu {
+  @apply absolute right-0 mt-3 w-56 bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden z-50;
+
+  animation: dropdownFade 0.2s ease;
+}
+
+.dropdown-menu ul {
+  @apply py-2;
+}
+
+.dropdown-menu li {
+  @apply px-4 py-3 text-gray-700 cursor-pointer transition-colors duration-200 hover:bg-gray-100;
+}
+
+.logout {
+  @apply text-red-500 font-medium hover:bg-red-50;
+}
+
+@keyframes dropdownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+/* Hide Experiences */
+@media (max-width: 500px) {
+  .item-3 {
+    display: none;
+  }
+}
+
+/* Hide Hotels */
+@media (max-width: 750px) {
+  .item-2 {
+    display: none;
+  }
+}
+
+/* Hide Homes */
+@media (max-width: 700px) {
+  .item-1 {
+    display: none;
+  }
+}
+
+
+/* =========================
+   OVERLAY mobile side bar
+========================= */
+
+.sidebar-overlay {
+  @apply fixed inset-0 bg-black/40 z-40;
+
+  transition: opacity 0.3s ease;
+}
+
+.overlay-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.overlay-close {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.mobile-sidebar {
+  @apply fixed top-0 right-0 h-screen w-72 bg-white shadow-xl z-50 p-5;
+
+  transition: transform 0.3s ease;
+}
+
+/* Open State */
+.sidebar-open {
+  transform: translateX(0);
+}
+
+/* Close State */
+.sidebar-close {
+  transform: translateX(100%);
+}
+
+/* =========================
+   SIDEBAR HEADER
+========================= */
+
+.sidebar-header {
+  @apply flex items-center justify-between mb-6;
+}
+
+.sidebar-header img {
+  @apply w-12 h-12 rounded-full;
+}
+
+.sidebar-header button {
+  @apply text-2xl cursor-pointer;
+}
+
+/* =========================
+   MENU
+========================= */
+
+.mobile-sidebar ul {
+  @apply flex flex-col gap-4;
+}
+
+.mobile-sidebar li {
+  @apply py-3 px-2 rounded-lg cursor-pointer hover:bg-gray-100 transition-all;
+}
+
+.mobile-sidebar .logout {
+  @apply text-red-500;
+}
