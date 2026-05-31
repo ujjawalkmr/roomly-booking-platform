@@ -1,12 +1,14 @@
+import RoutesApp from './routes/RoutesApp';
 import './styles/theme.css'
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
+import DefaultLayout from './pages/DefaultLayout';
+
 
 function App() {
   return (
     <div>
-      <Navbar />
-      <Hero />
+        {/* <DefaultLayout /> */}
+
+       <RoutesApp/>
     </div>
     
   );
