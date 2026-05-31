@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+.property-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6;
+}
+
+.property-card {
+  @apply bg-white rounded-2xl shadow-sm cursor-pointer transition duration-300 hover:shadow-lg hover:scale-105 overflow-hidden;
+}
+
+.property-image-wrapper {
+  @apply relative;
+}
+
+.property-image {
+  @apply h-40 w-full object-cover;
+}
+
+.property-rating {
+  @apply absolute top-3 right-3 bg-white px-2 py-1 rounded-full text-sm font-medium shadow;
+}
+
+.property-price {
+  @apply absolute bottom-3 right-3 bg-black text-white px-3 py-1 rounded-full text-sm;
+}
+
+.property-content {
+  @apply flex items-center justify-between w-full p-4;
+}
+.property-text {
+  @apply flex flex-col;
+}
+.property-title {
+  @apply font-semibold text-slate-800;
+}
+
+.property-rooms {
+  @apply text-sm text-slate-500 mt-1;
+}
+.book-btn {
+  @apply bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition whitespace-nowrap cursor-pointer;
+}
