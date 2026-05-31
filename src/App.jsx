@@ -1,6 +1,7 @@
 import RoutesApp from './routes/RoutesApp';
 import './styles/theme.css'
 import DefaultLayout from './pages/DefaultLayout';
+import JoinSection from './components/Login';
 
 
 function App() {
@@ -8,7 +9,8 @@ function App() {
     <div>
         {/* <DefaultLayout /> */}
 
-       <RoutesApp/>
+      {/* <RoutesApp/> */}
+      <JoinSection/>
     </div>
     
   );
