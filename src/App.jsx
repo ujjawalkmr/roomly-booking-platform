@@ -2,17 +2,18 @@ import RoutesApp from './routes/RoutesApp';
 import './styles/theme.css'
 import DefaultLayout from './pages/DefaultLayout';
 import JoinSection from './components/Login';
-
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <div>
-        {/* <DefaultLayout /> */}
+      <Navbar />
 
-      {/* <RoutesApp/> */}
-      <JoinSection/>
+      {/* <DefaultLayout /> */}
+
+      <RoutesApp />
+      {/* <JoinSection/> */}
     </div>
-    
   );
 }
 
