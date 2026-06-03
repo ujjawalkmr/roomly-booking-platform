@@ -6,11 +6,10 @@ function DefaultLayout() {
   const navigate = useNavigate();
   return (
     <div>
-          <Navbar />
+      {/* <Navbar /> */}
       <Dashboard />
-<button onClick={() => navigate("/login")}>
-  Click
-      </button>
+      <button onClick={() => { navigate("/login");  window.scrollTo(0, 0);}
+}>Click</button>
       {/* <Hero /> */}
     </div>
   );

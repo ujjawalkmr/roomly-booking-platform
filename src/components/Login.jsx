@@ -13,7 +13,7 @@ function LoginSection() {
   };
 
   return (
-    <section id="login" className="login-section">
+    <section  className="login-section">
       <div className="login-header">
         <p className="login-subtitle">GLOBAL PARTNERSHIP NETWORK</p>
 
