@@ -1,12 +1,12 @@
 import "../styles/Dashboard.css";
-import Hero from "../components/Hero";
-import PropertyCard from "./PropertyCard";
+import PropertyCard from "../components/PropertyCard";
+import HeroSearch from "../components/HeroSearch";
 
 function Dashboard() {
   return (
     <section id="dashboard">
       <div>
-        <Hero />
+        <HeroSearch />
         <div className="dashboard-container">
           <PropertyCard />
         </div>

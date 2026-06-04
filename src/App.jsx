@@ -1,30 +1,16 @@
-import './styles/theme.css'
-import DefaultLayout from './pages/DefaultLayout';
+import "./styles/theme.css";
 import Navbar from "./components/Navbar";
-import { Routes, Route } from "react-router-dom";
-import LoginPage from "./components/Login";
-import ScrollToTop from "./utils/ScrollToTop";
+import Dashboard from "./pages/Dashboard";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   return (
     <div>
       <Navbar />
-      
- <>
-      <ScrollToTop />
-
-      <Routes>
-        <Route path="/" element={<DefaultLayout />} />
-        <Route path="/login" element={<LoginPage />} />
-      </Routes>
-    </>
-      {/* <DefaultLayout /> */}
-
+      {/* <Dashboard /> */}
+      {/* <LoginPage/> */}
     </div>
   );
 }
 
-
-
-
-export default App
+export default App;

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "../styles/Login.css";
 
-function LoginSection() {
+function LoginPage() {
   const [view, setView] = useState("login");
 
   const animationProps = {
@@ -187,4 +187,4 @@ function LoginSection() {
   );
 }
 
-export default LoginSection;
+export default LoginPage;

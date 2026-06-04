@@ -10,7 +10,7 @@ const images = [
   "https://images.unsplash.com/photo-1512917774080-9991f1c4c750",
 ];
 
-export default function SearchHero() {
+export default function HeroSearch() {
   const [currentImage, setCurrentImage] = useState(0);
 
   useEffect(() => {
