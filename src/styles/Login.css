@@ -1,0 +1,127 @@
+@import "tailwindcss";
+.login-section {
+  @apply relative min-h-screen flex flex-col justify-center
+  px-4 sm:px-6 lg:px-8 py-10;
+
+  background-image: url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.login-section::before {
+  content: "";
+  @apply absolute inset-0 bg-blue-900/20;
+}
+.login-header,
+.login-content {
+  @apply relative z-10;
+}
+
+.login-header {
+  @apply text-center mb-8;
+}
+
+.login-title {
+  @apply text-3xl md:text-5xl font-bold text-white;
+}
+
+.login-subtitle {
+  @apply text-white/80 uppercase tracking-widest text-sm;
+}
+
+.login-desc {
+  @apply text-white/80 mt-3;
+}
+
+.login-content {
+  @apply max-w-6xl w-full mx-auto;
+}
+
+.registration-card {
+  @apply w-full max-w-5xl mx-auto
+  bg-blue-900/70 backdrop-blur-sm
+  rounded-[32px]
+  p-5 sm:p-8 lg:p-10
+  shadow-2xl;
+}
+
+.card-heading {
+  @apply text-center text-2xl md:text-3xl
+  font-bold text-slate-800 mb-8;
+}
+
+.steps-container {
+  @apply flex flex-col lg:flex-row
+  justify-center items-stretch gap-6;
+}
+
+.step-box {
+  @apply flex-1 rounded-2xl
+  border border-slate-200
+  p-5 sm:p-6
+  shadow-sm bg-white;
+}
+
+.step-header {
+  @apply bg-slate-100 text-center py-3
+  rounded-xl font-semibold mb-5;
+}
+
+.step-header.active {
+  @apply bg-blue-600 text-white;
+}
+
+.network-image {
+  @apply w-full  mx-auto mt-4;
+}
+
+.signup-form {
+  @apply flex flex-col gap-4;
+}
+
+.form-input {
+  @apply w-full border border-slate-300
+  rounded-xl px-4 py-3
+  focus:ring-2 focus:ring-blue-500
+  outline-none;
+}
+
+.create-btn {
+  @apply bg-slate-900 text-white
+  py-3 rounded-xl
+  hover:opacity-90 transition;
+}
+
+.login-btn {
+  @apply border border-slate-300 bg-blue-600 text-white
+  py-3 rounded-xl
+  hover:bg-blue-400 transition;
+}
+
+
+
+
+
+.form-wrapper {
+  @apply relative min-h-[320px] flex items-center justify-center ;
+}
+
+.form-screen {
+  @apply w-full;
+}
+
+.login-btn {
+  @apply bg-blue-600 text-white py-3 rounded-xl
+  hover:bg-blue-700 transition-all duration-300;
+}
+
+.create-btn {
+  @apply bg-slate-900 text-white py-3 rounded-xl
+  hover:opacity-90 transition-all duration-300;
+}
+
+.back-btn {
+  @apply border border-slate-300 py-3 rounded-xl
+  hover:bg-slate-100 transition-all duration-300;
+}

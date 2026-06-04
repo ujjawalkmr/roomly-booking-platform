@@ -5,7 +5,7 @@
 ========================= */
 
 .navbar {
-  @apply flex items-center justify-between
+  @apply fixed top-0 left-0 w-full z-50 bg-white shadow-md flex items-center justify-between
   px-6 py-2 border-b border-gray-200
   bg-linear-to-r from-white to-blue-500;
 }

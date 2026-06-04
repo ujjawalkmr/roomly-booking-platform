@@ -1,0 +1,18 @@
+import Dashboard from "../components/Dashboard";
+import Navbar from "../components/Navbar";
+import { useNavigate } from "react-router-dom";
+
+function DefaultLayout() {
+  const navigate = useNavigate();
+  return (
+    <div>
+      {/* <Navbar /> */}
+      <Dashboard />
+      <button onClick={() => { navigate("/login");  window.scrollTo(0, 0);}
+}>Click</button>
+      {/* <Hero /> */}
+    </div>
+  );
+}
+
+export default DefaultLayout;
