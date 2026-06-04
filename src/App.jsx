@@ -1,3 +1,4 @@
+import {Routes, Route } from "react-router-dom";
 import "./styles/theme.css";
 import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
@@ -7,7 +8,16 @@ function App() {
   return (
     <div>
       <Navbar />
-      {/* <Dashboard /> */}
+      <Routes>
+        <Route
+          path="/"
+          element={<Dashboard />}
+        />
+        <Route
+          path="/login"
+          element={<LoginPage />}
+        />
+      </Routes>
       {/* <LoginPage/> */}
     </div>
   );
