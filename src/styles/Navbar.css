@@ -58,6 +58,12 @@
   @apply w-12 h-12 rounded-full object-cover border border-gray-200;
   transition: transform 0.2s ease;
 }
+.login-btn {
+  @apply py-3   text-black rounded-md transition-all duration-300 hover:text-white cursor-pointer bg-transparent border-none hover:bg-transparent;
+}
+.login-btn.active {
+  @apply  text-white bg-transparent hover:bg-transparent
+}
 
 .profile img:hover {
   transform: scale(1.05);
