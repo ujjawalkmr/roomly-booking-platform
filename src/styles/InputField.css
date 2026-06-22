@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+.input-wrapper {
+  @apply relative w-full mb-6;
+}
+
+.form-input {
+  @apply w-full px-4 py-3 border border-gray-300 rounded-lg outline-none;
+}
+
+.form-input.input-error {
+  @apply border-red-500;
+}
+
+.error-message {
+  @apply absolute left-2 top-full mt-1 text-sm text-red-500;
+}

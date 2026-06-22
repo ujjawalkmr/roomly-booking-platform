@@ -3,7 +3,7 @@ import api from "../axiosInstance";
 
 export const getAllProperties = async () => {
   try {
-      const response = await api.get("/properties");
+      const response = await api.get("/properties/getProperty/properties");
       const data = response.data["data"][0];
       const property = PropertyModel.fromJson(data);
 
