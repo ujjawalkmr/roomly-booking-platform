@@ -1,6 +1,8 @@
 import { lazy, Suspense } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import "./styles/theme.css";
 import ScrollToTop from "./utils/ScrollToTop";
@@ -19,7 +21,16 @@ function App() {
       <ScrollToTop />
 
       <Navbar />
+
       <RoutePages />
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        toastStyle={{
+          background: "#333",
+          color: "#fff",
+        }}
+      />
     </>
   );
 }
