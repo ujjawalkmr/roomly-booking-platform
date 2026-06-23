@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import {  toast } from "react-toastify";
 import InputField from "../components/InputField";
+import { getOtp } from "../api/services/authService";
 import "../styles/Login.css";
 
 function LoginPage() {
@@ -9,21 +11,35 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
 
-  const handleGetOtp = () => {
+  const validateEmail = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!email.trim()) {
       setError("Email is required");
-      return;
+      return false;
     }
 
     if (!emailRegex.test(email)) {
       setError("Please enter a valid email");
-      return;
+      return false;
     }
 
     setError("");
-    setView("verifyOtp");
+    return true;
+  };
+  const handleGetOtp = async () => {
+    console.log("ppppppppppppppp");
+    const isValid = validateEmail();
+
+    if (!isValid) return;
+
+    const data = await getOtp(email);
+    console.log("data comming:", data);
+    if (data !== null) {
+      toast.error(data);
+
+      setView("verifyOtp");
+    }
   };
 
   const animationProps = {
