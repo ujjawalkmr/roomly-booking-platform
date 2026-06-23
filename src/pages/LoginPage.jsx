@@ -10,6 +10,7 @@ function LoginPage() {
 
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [loadingButton, setLoadingButton] = useState(null);
 
   const validateEmail = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -32,6 +33,7 @@ function LoginPage() {
     const isValid = validateEmail();
 
     if (!isValid) return;
+    setLoadingButton("otp");
 
     const data = await getOtp(email);
     console.log("data comming:", data);
@@ -40,6 +42,7 @@ function LoginPage() {
 
       setView("verifyOtp");
     }
+    setLoadingButton(null);
   };
 
   const animationProps = {
@@ -145,27 +148,19 @@ function LoginPage() {
                           }}
                           error={error}
                         />
-
                         <button
                           type="button"
                           className="create-btn"
                           onClick={handleGetOtp}
+                          disabled={loadingButton === "otp"}
                         >
-                          Get OTP
+                          {loadingButton === "otp" ? (
+                            <span className="spinner"></span>
+                          ) : (
+                            "Get OTP"
+                          )}
                         </button>
-                        {/* <input
-                          type="email"
-                          placeholder="Enter Email Address"
-                          className="form-input"
-                        /> */}
-
-                        {/* <button
-                          type="button"
-                          className="create-btn"
-                          onClick={() => setView("verifyOtp")}
-                        >
-                          Get OTP
-                        </button> */}
+                        
 
                         <button
                           type="button"
