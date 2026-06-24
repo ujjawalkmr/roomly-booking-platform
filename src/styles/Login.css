@@ -79,14 +79,17 @@
 .signup-form {
   @apply flex flex-col gap-4;
 }
-
+/* 
 .form-input {
   @apply w-full border border-slate-300
   rounded-xl px-4 py-3
   focus:ring-2 focus:ring-blue-500
   outline-none;
-}
+} */
+.create-password-input{
+    @apply relative w-full mb-0;
 
+}
 .create-btn {
   @apply bg-slate-900 text-white
   py-3 rounded-xl
