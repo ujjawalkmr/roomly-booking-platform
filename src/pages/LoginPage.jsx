@@ -3,34 +3,23 @@ import { motion, AnimatePresence } from "framer-motion";
 import {  toast } from "react-toastify";
 import InputField from "../components/InputField";
 import { getOtp } from "../api/services/authService";
+import {
+  handleVerifyOtp,
+  validateEmail,
+} from "../utils/validation/authValidation";
+import { useOtpTimer } from "../hooks/commonHooks";
 import "../styles/Login.css";
 
 function LoginPage() {
   const [view, setView] = useState("login");
-
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [loadingButton, setLoadingButton] = useState(null);
+  const [otp, setOtp] = useState("");
+  const { timer, startTimer, isExpired, stopTimer } = useOtpTimer(300);
 
-  const validateEmail = () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!email.trim()) {
-      setError("Email is required");
-      return false;
-    }
-
-    if (!emailRegex.test(email)) {
-      setError("Please enter a valid email");
-      return false;
-    }
-
-    setError("");
-    return true;
-  };
   const handleGetOtp = async () => {
-    console.log("ppppppppppppppp");
-    const isValid = validateEmail();
+    const isValid = validateEmail(email, setError);
 
     if (!isValid) return;
     setLoadingButton("otp");
@@ -38,9 +27,10 @@ function LoginPage() {
     const data = await getOtp(email);
     console.log("data comming:", data);
     if (data !== null) {
-      toast.error(data);
+      toast.success(data);
 
       setView("verifyOtp");
+      startTimer();
     }
     setLoadingButton(null);
   };
@@ -160,12 +150,14 @@ function LoginPage() {
                             "Get OTP"
                           )}
                         </button>
-                        
 
                         <button
                           type="button"
                           className="back-btn"
-                          onClick={() => setView("login")}
+                          onClick={() => {
+                            setView("login");
+                            setError("");
+                          }}
                         >
                           Back
                         </button>
@@ -181,24 +173,50 @@ function LoginPage() {
                       {...animationProps}
                     >
                       <form className="signup-form">
-                        <input
+                        <div>
+                          OTP expires in: {Math.floor(timer / 60)}:
+                          {(timer % 60).toString().padStart(2, "0")}
+                        </div>
+                        <InputField
                           type="text"
                           placeholder="Enter OTP"
-                          className="form-input"
+                          value={otp}
+                          onChange={(e) => {
+                            setOtp(e.target.value);
+                            setError("");
+                          }}
+                          error={error}
                         />
 
                         <button
                           type="button"
                           className="create-btn"
-                          onClick={() => setView("password")}
+                          disabled={loadingButton === "1"}
+                          onClick={() =>
+                            handleVerifyOtp(
+                              otp,
+                              email,
+                              setError,
+                              setView,
+                              setLoadingButton,stopTimer
+                            )
+                          }
                         >
-                          Verify OTP
+                          {loadingButton === "1" ? (
+                            <span className="spinner"></span>
+                          ) : (
+                            " Verify OTP"
+                          )}
                         </button>
 
                         <button
                           type="button"
                           className="back-btn"
-                          onClick={() => setView("otp")}
+                          onClick={() => {
+                            setView("otp");
+                            setError("");
+                            stopTimer();
+                          }}
                         >
                           Back
                         </button>
@@ -214,17 +232,29 @@ function LoginPage() {
                       {...animationProps}
                     >
                       <form className="signup-form">
-                        <input
+                        <InputField
+                          inputWrapper="create-password-input"
                           type="password"
                           placeholder="Create Password"
-                          className="form-input"
+                          // value={email}
+                          // onChange={(e) => {
+                          //   setEmail(e.target.value);
+                          //   setError("");
+                          // }}
+                          // error={error}
                         />
-
-                        <input
+                        <InputField
+        
                           type="password"
-                          placeholder="Retype Password"
-                          className="form-input"
+                          placeholder="Retype password"
+                          // value={email}
+                          // onChange={(e) => {
+                          //   setEmail(e.target.value);
+                          //   setError("");
+                          // }}
+                          // error={error}
                         />
+                       
 
                         <button
                           type="button"

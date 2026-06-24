@@ -1,5 +1,6 @@
 import "../styles/InputField.css"
 function InputField({
+  inputWrapper="",
   type = "text",
   placeholder="Enter",
   value,
@@ -8,7 +9,7 @@ function InputField({
   name,
 }) {
   return (
-    <div className="input-wrapper">
+    <div className={`input-wrapper ${inputWrapper}`}>
       <input
         type={type}
         name={name}
