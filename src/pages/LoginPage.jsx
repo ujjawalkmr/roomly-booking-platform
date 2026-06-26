@@ -2,11 +2,12 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {  toast } from "react-toastify";
 import InputField from "../components/InputField";
-import { getOtp } from "../api/services/authService";
+import { getOtp,createPassword } from "../api/services/authService";
 import {
   handleVerifyOtp,
-  validateEmail,
+  validateEmail,createPasswordValidation,confirmPasswordValidation
 } from "../utils/validation/authValidation";
+import {REGEX_VALIDATIONS} from "../utils/REGEX";
 import { useOtpTimer } from "../hooks/commonHooks";
 import "../styles/Login.css";
 
@@ -17,6 +18,34 @@ function LoginPage() {
   const [loadingButton, setLoadingButton] = useState(null);
   const [otp, setOtp] = useState("");
   const { timer, startTimer, isExpired, stopTimer } = useOtpTimer(300);
+  const [password, setPassword] = useState("");
+   const [confirmPassword, setConfirmPassword] = useState("");
+   const [retypePasswordError, setRetypePasswordError] = useState("");
+  
+
+  const handleSubmit = async () => {
+    setLoadingButton("2");
+ const isPasswordValid = createPasswordValidation(password, setError);
+  const isConfirmPasswordValid = confirmPasswordValidation(
+    password,
+    confirmPassword,
+    setRetypePasswordError
+  );
+
+    if (!isPasswordValid || !isConfirmPasswordValid) {
+        console.log("in if");
+      setLoadingButton(null);
+    return;
+    }
+
+    const response = await createPassword(email, password, confirmPassword);
+    console.log("creat password :", response);
+    toast.success("Password created successfully");
+    setView("login");
+    setEmail("");
+    setOtp("");
+    setLoadingButton(null);
+};
 
   const handleGetOtp = async () => {
     const isValid = validateEmail(email, setError);
@@ -198,7 +227,8 @@ function LoginPage() {
                               email,
                               setError,
                               setView,
-                              setLoadingButton,stopTimer
+                              setLoadingButton,
+                              stopTimer,
                             )
                           }
                         >
@@ -232,45 +262,47 @@ function LoginPage() {
                       {...animationProps}
                     >
                       <form className="signup-form">
+                        {/* <p>Password should 1 [A-Z], 1[a-z],1 Special char</p> */}
                         <InputField
-                          inputWrapper="create-password-input"
                           type="password"
                           placeholder="Create Password"
-                          // value={email}
-                          // onChange={(e) => {
-                          //   setEmail(e.target.value);
-                          //   setError("");
-                          // }}
-                          // error={error}
+                          value={password}
+                          onChange={(e) => {
+                            setPassword(e.target.value);
+                            createPasswordValidation(password,setError)
+                          }}
+                          error={error}
                         />
+
                         <InputField
-        
                           type="password"
-                          placeholder="Retype password"
-                          // value={email}
-                          // onChange={(e) => {
-                          //   setEmail(e.target.value);
-                          //   setError("");
-                          // }}
-                          // error={error}
+                          placeholder="Retype Password"
+                          value={confirmPassword}
+                          onChange={(e) => {
+                            console.log("retype is :", e.target.value);
+                            setConfirmPassword(e.target.value);
+                            confirmPasswordValidation(password,confirmPassword,setRetypePasswordError)
+
+                          }}
+                          error={retypePasswordError}
                         />
-                       
+
 
                         <button
                           type="button"
                           className="create-btn"
-                          onClick={() => setView("login")}
+                          onClick={() => { handleSubmit() }}
                         >
                           Submit
                         </button>
 
-                        <button
+                        {/* <button
                           type="button"
                           className="back-btn"
                           onClick={() => setView("verifyOtp")}
                         >
                           Back
-                        </button>
+                        </button> */}
                       </form>
                     </motion.div>
                   )}

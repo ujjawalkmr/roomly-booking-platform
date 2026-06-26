@@ -1,6 +1,5 @@
-import api from "../axiosInstance"
-import {  toast } from "react-toastify";
-
+import api from "../axiosInstance";
+import { toast } from "react-toastify";
 
 export const getOtp = async (email) => {
   try {
@@ -18,8 +17,8 @@ export const getOtp = async (email) => {
 export const verifyOtp = async (email, otp) => {
   try {
     const response = await api.post("/auth/verify-otp", {
-      "email": email,
-      "otp": otp,
+      email: email,
+      otp: otp,
     });
     console.log("comming response :", response.data);
     return response;
@@ -28,7 +27,31 @@ export const verifyOtp = async (email, otp) => {
     const error = e.response.data.message;
     if (error === "Invalid OTP") {
       toast.error(error);
-    } else { toast.error(error); }
+    } else {
+      toast.error(error);
+    }
     return null;
+  }
+};
+
+export const createPassword = async (
+  email,
+  password,
+  confirmPassword,
+  userName,
+) => {
+  try {
+    console.log("api call");
+    const response = await api.post("/auth/create-password", {
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword,
+      userName: userName,
+    });
+    console.log("coming response:", response.data);
+    return response.data;
+  } catch (error) {
+    console.log("send eror :", e.response.data.message);
+    toast.error("Something went wrong");
   }
 };
