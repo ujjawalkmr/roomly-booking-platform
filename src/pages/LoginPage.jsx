@@ -2,11 +2,12 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {  toast } from "react-toastify";
 import InputField from "../components/InputField";
-import { getOtp } from "../api/services/authService";
+import { getOtp,createPassword } from "../api/services/authService";
 import {
   handleVerifyOtp,
-  validateEmail,
+  validateEmail,createPasswordValidation,confirmPasswordValidation,getStepTitleValidate
 } from "../utils/validation/authValidation";
+import {REGEX_VALIDATIONS} from "../utils/REGEX";
 import { useOtpTimer } from "../hooks/commonHooks";
 import "../styles/Login.css";
 
@@ -17,6 +18,46 @@ function LoginPage() {
   const [loadingButton, setLoadingButton] = useState(null);
   const [otp, setOtp] = useState("");
   const { timer, startTimer, isExpired, stopTimer } = useOtpTimer(300);
+  const [password, setPassword] = useState("");
+   const [confirmPassword, setConfirmPassword] = useState("");
+   const [retypePasswordError, setRetypePasswordError] = useState("");
+  
+  const resetForm = () => {
+  setEmail("");
+    setOtp("");
+    setConfirmPassword("");
+    setPassword("");
+    setLoadingButton(null);
+    setError("");
+    setRetypePasswordError("");
+  };
+  const VIEWS = {
+  LOGIN: "login",
+  OTP: "otp",
+  VERIFY_OTP: "verifyOtp",
+  PASSWORD: "password",
+};
+ 
+
+  const handleSubmit = async () => {
+    setLoadingButton("2");
+ const isPasswordValid = createPasswordValidation(password, setError);
+  const isConfirmPasswordValid = confirmPasswordValidation(
+    password,
+    confirmPassword,
+    setRetypePasswordError
+  );
+
+    if (!isPasswordValid || !isConfirmPasswordValid) {
+      setLoadingButton(null);
+    return;
+    }
+
+    const response = await createPassword(email, password, confirmPassword);
+    toast.success("Password created successfully");
+    setView(VIEWS.LOGIN);
+    resetForm();
+};
 
   const handleGetOtp = async () => {
     const isValid = validateEmail(email, setError);
@@ -25,11 +66,10 @@ function LoginPage() {
     setLoadingButton("otp");
 
     const data = await getOtp(email);
-    console.log("data comming:", data);
     if (data !== null) {
       toast.success(data);
 
-      setView("verifyOtp");
+      setView(VIEWS.VERIFY_OTP);
       startTimer();
     }
     setLoadingButton(null);
@@ -76,7 +116,7 @@ function LoginPage() {
 
             {/* Right Form Card */}
             <div className="step-box">
-              <div className="step-header active">Step 2: Sign Up</div>
+              <div className="step-header active">{getStepTitleValidate(view)}</div>
 
               <div className="form-wrapper">
                 <AnimatePresence mode="wait">
@@ -110,7 +150,7 @@ function LoginPage() {
                         <button
                           type="button"
                           className="create-btn"
-                          onClick={() => setView("otp")}
+                          onClick={() => setView(VIEWS.OTP)}
                         >
                           Create Account
                         </button>
@@ -155,8 +195,9 @@ function LoginPage() {
                           type="button"
                           className="back-btn"
                           onClick={() => {
-                            setView("login");
+                            setView(VIEWS.LOGIN);
                             setError("");
+                            setEmail("");
                           }}
                         >
                           Back
@@ -198,7 +239,8 @@ function LoginPage() {
                               email,
                               setError,
                               setView,
-                              setLoadingButton,stopTimer
+                              setLoadingButton,
+                              stopTimer,
                             )
                           }
                         >
@@ -213,9 +255,10 @@ function LoginPage() {
                           type="button"
                           className="back-btn"
                           onClick={() => {
-                            setView("otp");
+                            setView(VIEWS.OTP);
                             setError("");
                             stopTimer();
+                            setOtp("");
                           }}
                         >
                           Back
@@ -233,44 +276,53 @@ function LoginPage() {
                     >
                       <form className="signup-form">
                         <InputField
-                          inputWrapper="create-password-input"
                           type="password"
                           placeholder="Create Password"
-                          // value={email}
-                          // onChange={(e) => {
-                          //   setEmail(e.target.value);
-                          //   setError("");
-                          // }}
-                          // error={error}
+                          value={password}
+                          disabled={loadingButton === "2"}
+                          onChange={(e) => {
+                              const value = e.target.value;
+
+                            setPassword(value);
+                            createPasswordValidation(value,setError)
+                          }}
+                          error={error}
                         />
+
                         <InputField
-        
                           type="password"
-                          placeholder="Retype password"
-                          // value={email}
-                          // onChange={(e) => {
-                          //   setEmail(e.target.value);
-                          //   setError("");
-                          // }}
-                          // error={error}
+                          placeholder="Retype Password"
+                          value={confirmPassword}
+                          onChange={(e) => {
+                              const value = e.target.value;
+                            setConfirmPassword(value);
+                            confirmPasswordValidation(password,value,setRetypePasswordError)
+
+                          }}
+                          error={retypePasswordError}
                         />
-                       
+
 
                         <button
                           type="button"
                           className="create-btn"
-                          onClick={() => setView("login")}
+                          onClick={() => { handleSubmit() }}
                         >
-                          Submit
+                           {loadingButton === "2" ? (
+                            <span className="spinner"></span>
+                          ) : (
+                            "Submit"
+                          )}
+                          
                         </button>
 
-                        <button
+                        {/* <button
                           type="button"
                           className="back-btn"
                           onClick={() => setView("verifyOtp")}
                         >
                           Back
-                        </button>
+                        </button> */}
                       </form>
                     </motion.div>
                   )}
