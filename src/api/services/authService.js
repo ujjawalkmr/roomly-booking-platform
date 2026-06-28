@@ -48,9 +48,32 @@ export const createPassword = async (
       userName: userName,
     });
     console.log("coming response:", response.data);
+
     return response.data;
-  } catch (error) {
+  } catch (e) {
     console.log("send eror :", e.response.data.message);
     toast.error("Something went wrong");
+  }
+};
+
+export const login = async (email, password) => {
+  try {
+
+    const response = await api.post("/auth/login", {
+      email: email,
+      password: password,
+    });
+
+    console.log("after login :", response.data.data);
+    // const token = response.data.accessToken;
+    // localStorage.setItem("token", token);
+    // const refreshToken = response.data.user.accessToken;
+    // localStorage.setItem("refreshToken", refreshToken);
+    
+    toast.success("Login successfully");
+    return UserModel.fromJson(response.data.user);
+  } catch (e) {
+    console.log("login error :", e.response.data.message);
+    toast.error("Invalid credentials");
   }
 };

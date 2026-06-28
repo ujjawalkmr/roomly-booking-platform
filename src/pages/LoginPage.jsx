@@ -2,14 +2,18 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {  toast } from "react-toastify";
 import InputField from "../components/InputField";
-import { getOtp,createPassword } from "../api/services/authService";
+import { getOtp, createPassword, login } from "../api/services/authService";
 import {
   handleVerifyOtp,
-  validateEmail,createPasswordValidation,confirmPasswordValidation,getStepTitleValidate
+  validateEmail,
+  createPasswordValidation,
+  confirmPasswordValidation,
+  getStepTitleValidate,
 } from "../utils/validation/authValidation";
-import {REGEX_VALIDATIONS} from "../utils/REGEX";
+import { REGEX_VALIDATIONS } from "../utils/REGEX";
 import { useOtpTimer } from "../hooks/commonHooks";
 import "../styles/Login.css";
+import { useAuth } from "../context/AuthContext";
 
 function LoginPage() {
   const [view, setView] = useState("login");
@@ -19,11 +23,12 @@ function LoginPage() {
   const [otp, setOtp] = useState("");
   const { timer, startTimer, isExpired, stopTimer } = useOtpTimer(300);
   const [password, setPassword] = useState("");
-   const [confirmPassword, setConfirmPassword] = useState("");
-   const [retypePasswordError, setRetypePasswordError] = useState("");
-  
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [retypePasswordError, setRetypePasswordError] = useState("");
+  //const { user, setUser, setIsLoggedIn } = useAuth();
+
   const resetForm = () => {
-  setEmail("");
+    setEmail("");
     setOtp("");
     setConfirmPassword("");
     setPassword("");
@@ -32,32 +37,50 @@ function LoginPage() {
     setRetypePasswordError("");
   };
   const VIEWS = {
-  LOGIN: "login",
-  OTP: "otp",
-  VERIFY_OTP: "verifyOtp",
-  PASSWORD: "password",
-};
- 
+    LOGIN: "login",
+    OTP: "otp",
+    VERIFY_OTP: "verifyOtp",
+    PASSWORD: "password",
+  };
 
+  const handleLogin = async () => {
+    setLoadingButton("0");
+    const isEmailValid = validateEmail(email, setError);
+    const isPasswordValid = createPasswordValidation(
+      password,
+      setRetypePasswordError,
+    );
+    if (!isPasswordValid || !isEmailValid) {
+      console.log("not validate");
+      setLoadingButton(null);
+      return;
+    }
+    const res = await login(email, password);
+    console.log("commmmmm :", res);
+    // setUser();
+    // console.log("context user is:", user);
+    // setIsLoggedIn(true);
+    setLoadingButton(null);
+  };
   const handleSubmit = async () => {
     setLoadingButton("2");
- const isPasswordValid = createPasswordValidation(password, setError);
-  const isConfirmPasswordValid = confirmPasswordValidation(
-    password,
-    confirmPassword,
-    setRetypePasswordError
-  );
+    const isPasswordValid = createPasswordValidation(password, setError);
+    const isConfirmPasswordValid = confirmPasswordValidation(
+      password,
+      confirmPassword,
+      setRetypePasswordError,
+    );
 
     if (!isPasswordValid || !isConfirmPasswordValid) {
       setLoadingButton(null);
-    return;
+      return;
     }
 
     const response = await createPassword(email, password, confirmPassword);
     toast.success("Password created successfully");
     setView(VIEWS.LOGIN);
     resetForm();
-};
+  };
 
   const handleGetOtp = async () => {
     const isValid = validateEmail(email, setError);
@@ -116,7 +139,9 @@ function LoginPage() {
 
             {/* Right Form Card */}
             <div className="step-box">
-              <div className="step-header active">{getStepTitleValidate(view)}</div>
+              <div className="step-header active">
+                {getStepTitleValidate(view)}
+              </div>
 
               <div className="form-wrapper">
                 <AnimatePresence mode="wait">
@@ -128,29 +153,51 @@ function LoginPage() {
                       {...animationProps}
                     >
                       <form className="signup-form">
-                        <input
+                        <InputField
                           type="email"
-                          placeholder="Email Address"
-                          className="form-input"
+                          placeholder="Enter Email Address"
+                          value={email}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            setEmail(value);
+                            validateEmail(value, setError);
+                          }}
+                          error={error}
                         />
-
-                        <input
+                        <InputField
                           type="password"
-                          placeholder="Password"
-                          className="form-input"
+                          placeholder="Create Password"
+                          value={password}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            setPassword(value);
+                            createPasswordValidation(
+                              value,
+                              setRetypePasswordError,
+                            );
+                          }}
+                          error={retypePasswordError}
                         />
-
                         <button
                           type="button"
                           className="login-btn"
+                          disabled={loadingButton === "0"}
+                          onClick={handleLogin}
                         >
-                          Login
+                          {loadingButton === "0" ? (
+                            <span className="spinner"></span>
+                          ) : (
+                            "Login"
+                          )}
                         </button>
 
                         <button
                           type="button"
                           className="create-btn"
-                          onClick={() => setView(VIEWS.OTP)}
+                          onClick={() => {
+                            resetForm();
+                            setView(VIEWS.OTP);
+                          }}
                         >
                           Create Account
                         </button>
@@ -279,12 +326,11 @@ function LoginPage() {
                           type="password"
                           placeholder="Create Password"
                           value={password}
-                          disabled={loadingButton === "2"}
                           onChange={(e) => {
-                              const value = e.target.value;
+                            const value = e.target.value;
 
                             setPassword(value);
-                            createPasswordValidation(value,setError)
+                            createPasswordValidation(value, setError);
                           }}
                           error={error}
                         />
@@ -294,26 +340,30 @@ function LoginPage() {
                           placeholder="Retype Password"
                           value={confirmPassword}
                           onChange={(e) => {
-                              const value = e.target.value;
+                            const value = e.target.value;
                             setConfirmPassword(value);
-                            confirmPasswordValidation(password,value,setRetypePasswordError)
-
+                            confirmPasswordValidation(
+                              password,
+                              value,
+                              setRetypePasswordError,
+                            );
                           }}
                           error={retypePasswordError}
                         />
 
-
                         <button
                           type="button"
                           className="create-btn"
-                          onClick={() => { handleSubmit() }}
+                          disabled={loadingButton === "2"}
+                          onClick={() => {
+                            handleSubmit();
+                          }}
                         >
-                           {loadingButton === "2" ? (
+                          {loadingButton === "2" ? (
                             <span className="spinner"></span>
                           ) : (
                             "Submit"
                           )}
-                          
                         </button>
 
                         {/* <button

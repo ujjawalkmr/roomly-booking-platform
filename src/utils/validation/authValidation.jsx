@@ -4,15 +4,13 @@ import { useOtpTimer } from "../../hooks/commonHooks";
 import { REGEX_VALIDATIONS } from "../REGEX";
 
 export const validateEmail = (email, setError) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
   if (!email.trim()) {
     setError("Email is required");
     return false;
   }
 
-  if (!emailRegex.test(email)) {
-    setError("Please enter a valid email");
+  if (!REGEX_VALIDATIONS.email.regex.test(email)) {
+    setError(REGEX_VALIDATIONS.email.message);
     return false;
   }
 
@@ -28,7 +26,6 @@ export const handleVerifyOtp = async (
   setLoadingButton,
   stopTimer,
 ) => {
-  console.log("comming call");
   if (!otp?.trim()) {
     setError("OTP is required");
     return;
