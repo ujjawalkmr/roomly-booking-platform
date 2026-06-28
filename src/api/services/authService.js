@@ -20,7 +20,6 @@ export const verifyOtp = async (email, otp) => {
       email: email,
       otp: otp,
     });
-    console.log("comming response :", response.data);
     return response;
   } catch (e) {
     console.log("send eror :", e.response.data.message);

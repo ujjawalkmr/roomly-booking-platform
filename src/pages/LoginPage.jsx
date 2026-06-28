@@ -5,7 +5,7 @@ import InputField from "../components/InputField";
 import { getOtp,createPassword } from "../api/services/authService";
 import {
   handleVerifyOtp,
-  validateEmail,createPasswordValidation,confirmPasswordValidation
+  validateEmail,createPasswordValidation,confirmPasswordValidation,getStepTitleValidate
 } from "../utils/validation/authValidation";
 import {REGEX_VALIDATIONS} from "../utils/REGEX";
 import { useOtpTimer } from "../hooks/commonHooks";
@@ -22,6 +22,22 @@ function LoginPage() {
    const [confirmPassword, setConfirmPassword] = useState("");
    const [retypePasswordError, setRetypePasswordError] = useState("");
   
+  const resetForm = () => {
+  setEmail("");
+    setOtp("");
+    setConfirmPassword("");
+    setPassword("");
+    setLoadingButton(null);
+    setError("");
+    setRetypePasswordError("");
+  };
+  const VIEWS = {
+  LOGIN: "login",
+  OTP: "otp",
+  VERIFY_OTP: "verifyOtp",
+  PASSWORD: "password",
+};
+ 
 
   const handleSubmit = async () => {
     setLoadingButton("2");
@@ -33,18 +49,14 @@ function LoginPage() {
   );
 
     if (!isPasswordValid || !isConfirmPasswordValid) {
-        console.log("in if");
       setLoadingButton(null);
     return;
     }
 
     const response = await createPassword(email, password, confirmPassword);
-    console.log("creat password :", response);
     toast.success("Password created successfully");
-    setView("login");
-    setEmail("");
-    setOtp("");
-    setLoadingButton(null);
+    setView(VIEWS.LOGIN);
+    resetForm();
 };
 
   const handleGetOtp = async () => {
@@ -54,11 +66,10 @@ function LoginPage() {
     setLoadingButton("otp");
 
     const data = await getOtp(email);
-    console.log("data comming:", data);
     if (data !== null) {
       toast.success(data);
 
-      setView("verifyOtp");
+      setView(VIEWS.VERIFY_OTP);
       startTimer();
     }
     setLoadingButton(null);
@@ -105,7 +116,7 @@ function LoginPage() {
 
             {/* Right Form Card */}
             <div className="step-box">
-              <div className="step-header active">Step 2: Sign Up</div>
+              <div className="step-header active">{getStepTitleValidate(view)}</div>
 
               <div className="form-wrapper">
                 <AnimatePresence mode="wait">
@@ -139,7 +150,7 @@ function LoginPage() {
                         <button
                           type="button"
                           className="create-btn"
-                          onClick={() => setView("otp")}
+                          onClick={() => setView(VIEWS.OTP)}
                         >
                           Create Account
                         </button>
@@ -184,8 +195,9 @@ function LoginPage() {
                           type="button"
                           className="back-btn"
                           onClick={() => {
-                            setView("login");
+                            setView(VIEWS.LOGIN);
                             setError("");
+                            setEmail("");
                           }}
                         >
                           Back
@@ -243,9 +255,10 @@ function LoginPage() {
                           type="button"
                           className="back-btn"
                           onClick={() => {
-                            setView("otp");
+                            setView(VIEWS.OTP);
                             setError("");
                             stopTimer();
+                            setOtp("");
                           }}
                         >
                           Back
@@ -262,14 +275,16 @@ function LoginPage() {
                       {...animationProps}
                     >
                       <form className="signup-form">
-                        {/* <p>Password should 1 [A-Z], 1[a-z],1 Special char</p> */}
                         <InputField
                           type="password"
                           placeholder="Create Password"
                           value={password}
+                          disabled={loadingButton === "2"}
                           onChange={(e) => {
-                            setPassword(e.target.value);
-                            createPasswordValidation(password,setError)
+                              const value = e.target.value;
+
+                            setPassword(value);
+                            createPasswordValidation(value,setError)
                           }}
                           error={error}
                         />
@@ -279,9 +294,9 @@ function LoginPage() {
                           placeholder="Retype Password"
                           value={confirmPassword}
                           onChange={(e) => {
-                            console.log("retype is :", e.target.value);
-                            setConfirmPassword(e.target.value);
-                            confirmPasswordValidation(password,confirmPassword,setRetypePasswordError)
+                              const value = e.target.value;
+                            setConfirmPassword(value);
+                            confirmPasswordValidation(password,value,setRetypePasswordError)
 
                           }}
                           error={retypePasswordError}
@@ -293,7 +308,12 @@ function LoginPage() {
                           className="create-btn"
                           onClick={() => { handleSubmit() }}
                         >
-                          Submit
+                           {loadingButton === "2" ? (
+                            <span className="spinner"></span>
+                          ) : (
+                            "Submit"
+                          )}
+                          
                         </button>
 
                         {/* <button

@@ -87,3 +87,21 @@ export const confirmPasswordValidation = (
   return true;
 };
 
+
+ export const getStepTitleValidate = (view) => {
+  switch (view) {
+    case "login":
+      return "Please Login";
+
+    case "otp":
+      return "Step 1: Please Enter Email";
+    case "verifyOtp":
+      return "Step 2: Please Enter OTP";
+
+    case "password":
+      return "Step 3: Create Password";
+
+    default:
+      return "Please Login";
+  }
+};
