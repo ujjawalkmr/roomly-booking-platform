@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "../styles/Navbar.css";
+import { useAuth } from "../context/AuthContext";
+
 const logo = "assets/navbar/bs.png";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const {  setIsLoggedIn } = useAuth();
+
     const user = JSON.parse(localStorage.getItem("user"));
 
     return (
@@ -30,7 +34,7 @@ export default function Navbar() {
             <li className="item-3">Experiences</li>
           </ul>
 
-          {user ? (
+          {setIsLoggedIn ? (
             <div
               className="profile-wrapper desktop-dropdown"
               onMouseEnter={() => {
@@ -49,7 +53,7 @@ export default function Navbar() {
                 }}
               >
                 <img
-                  src={user.profileImage || "https://i.pravatar.cc/100?img=5"}
+                  src={ "https://i.pravatar.cc/100?img=5"}
                   alt="profile"
                 />
               </div>
