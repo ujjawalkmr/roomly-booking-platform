@@ -1,5 +1,8 @@
 import api from "../axiosInstance";
 import { toast } from "react-toastify";
+import UserModel from "../../model/UserModel";
+
+
 
 export const getOtp = async (email) => {
   try {
@@ -64,14 +67,16 @@ export const login = async (email, password) => {
       password: password,
     });
 
-    console.log("after login :", response.data.data);
+    const userData = response.data.data.user;
+
     // const token = response.data.accessToken;
     // localStorage.setItem("token", token);
     // const refreshToken = response.data.user.accessToken;
     // localStorage.setItem("refreshToken", refreshToken);
     
+    const userModel = UserModel.fromJson(userData);
     toast.success("Login successfully");
-    return UserModel.fromJson(response.data.user);
+    return userModel;
   } catch (e) {
     console.log("login error :", e.response.data.message);
     toast.error("Invalid credentials");

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {  toast } from "react-toastify";
 import InputField from "../components/InputField";
@@ -25,7 +26,8 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [retypePasswordError, setRetypePasswordError] = useState("");
-  //const { user, setUser, setIsLoggedIn } = useAuth();
+  const { setUser, setIsLoggedIn } = useAuth();
+  const navigate = useNavigate();
 
   const resetForm = () => {
     setEmail("");
@@ -51,17 +53,17 @@ function LoginPage() {
       setRetypePasswordError,
     );
     if (!isPasswordValid || !isEmailValid) {
-      console.log("not validate");
       setLoadingButton(null);
       return;
     }
     const res = await login(email, password);
-    console.log("commmmmm :", res);
-    // setUser();
-    // console.log("context user is:", user);
-    // setIsLoggedIn(true);
-    //
+    if (res) {
+      setUser(res);
+      setIsLoggedIn(true);
+    }
+
     setLoadingButton(null);
+    navigate("/");
   };
   const handleSubmit = async () => {
     setLoadingButton("2");

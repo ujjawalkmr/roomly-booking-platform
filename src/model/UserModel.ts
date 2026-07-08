@@ -18,8 +18,7 @@ export default class UserModel {
       this.updatedAt = data.updatedAt ?? "";
     this.userFirstName = data.userFirstName ?? "";
     this.userLastName = data.userLastName ?? "";
-    this.userEmail = data.userEmail ?? "";
-    this.userDOB = data.userDOB ?? "";
+this.userEmail = data.userEmail ?? data.email ?? "";    this.userDOB = data.userDOB ?? "";
     this.userIDProf = data.userIDProf ?? "";
     this.userImage = data.userImage ?? "";
     this.userPhoneNumber = data.userPhoneNumber ?? "";
