@@ -1,28 +1,31 @@
 import "../styles/Button.css";
-import { cn } from "../lib/utils/utils";
 
-/// A reusable Button component that supports different variants and sizes.
-export default function Button({
-  children,
-  variant = "primary",
-  size = "md",
-  className,
-  disabled,
-  ...props
-}) {
-  return (
-    <button
-      className={cn(
-        "btn",
-        `btn-${size}`,
-        `btn-${variant}`,
-        disabled && "btn-disabled",
-        className
-      )}
-      disabled={disabled}
-      {...props}
-    >
-      {children}
-    </button>
-  );
-}
+const But = ({
+    text,
+    onClick,
+    type = "button",
+    disabled = false,
+    loading = false,
+    variant = "primary",
+}) => {
+    return (
+        <button
+            type={type}
+            onClick={onClick}
+            disabled={disabled || loading}
+            className={`custom-btn ${variant}`}
+        >
+
+
+            {loading ? (
+                <div className="w-5 h-5 mx-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+            ) : (
+                text
+            )}
+
+
+        </button>
+    );
+};
+
+export default But;

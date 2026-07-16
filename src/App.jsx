@@ -9,6 +9,8 @@ import ScrollToTop from "./utils/ScrollToTop";
 import Navbar from "./components/Navbar";
 import PageTransition from "./utils/PageTransition";
 import RoutePages from "./routes/RoutePages";
+import RoomDetailView from "./pages/RoomDetailView";
+
 
 const Checkpage = lazy(() => import("./pages/Checkpage"));
 const LoginPage = lazy(() => import("./pages/LoginPage"));
@@ -21,6 +23,7 @@ function App() {
       <ScrollToTop />
 
       <Navbar />
+      {/* <RoomDetailView /> */}
 
       <RoutePages />
       <ToastContainer
