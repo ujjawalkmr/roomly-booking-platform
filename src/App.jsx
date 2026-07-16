@@ -23,9 +23,9 @@ function App() {
       <ScrollToTop />
 
       <Navbar />
-      {/* <RoomDetailView /> */}
+      <RoomDetailView />
 
-      <RoutePages />
+      {/* <RoutePages />
       <ToastContainer
         position="bottom-center"
         autoClose={5000}
@@ -33,7 +33,7 @@ function App() {
           background: "#333",
           color: "#fff",
         }}
-      />
+      /> */}
     </>
   );
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import ImageGrid from '../features/roomFeatures/ImageGride';
 import RoomInfo from '../features/roomFeatures/RoomInfo';
 import RoomBookingCard from '../features/roomFeatures/RoomBookingCard';
+import RoomCard from '../features/roomFeatures/RoomCard';
 
 
 
@@ -15,8 +16,7 @@ export default function RoomDetailView() {
 
     return (
         <div className="min-h-screen bg-gray-50/50 py-8 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-6xl mx-auto space-y-8">
-                <h1>Room Detail</h1>
+            <div className=" mx-auto space-y-8">
                 {/* Top Media Gallery Component */}
                 <ImageGrid images={mockImages} />
 
@@ -36,6 +36,7 @@ export default function RoomDetailView() {
                 </div>
 
             </div>
+            <RoomCard/>
         </div>
     );
 };
