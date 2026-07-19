@@ -1,9 +1,11 @@
 import React from 'react';
+import { useEffect, useState } from "react";
 import ImageGrid from '../features/roomFeatures/ImageGride';
 import RoomInfo from '../features/roomFeatures/RoomInfo';
 import RoomBookingCard from '../features/roomFeatures/RoomBookingCard';
 import RoomCard from '../features/roomFeatures/RoomCard';
 import ReviewCard from '../features/roomFeatures/RoomReview';
+import { getAllRoom } from "../api/services/roomService";
 
 
 
@@ -25,6 +27,21 @@ export default function RoomDetailView() {
         { id: 7, author: 'Tom Cruise', rating: 4, date: '3 months ago', comment: 'Excellent location, easy beach access, and peaceful nights.' }
     ];
 
+
+    useEffect(() => {
+        fetchProperties();
+      }, []);
+    
+      const fetchProperties = async () => {
+        try {
+          const data = await getAllRoom();
+          console.log("Properties in Dashboard:", data);
+    
+          setProperties(data);
+        } catch (error) {
+          console.error(error);
+        }
+      };
     return (
         <div className="min-h-screen bg-gray-50/50 py-8 px-4 sm:px-6 lg:px-8">
             <div className=" mx-auto space-y-8">
