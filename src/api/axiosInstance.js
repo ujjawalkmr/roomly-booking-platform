@@ -1,8 +1,9 @@
 import axios from "axios";
 const baseUrl = "http://localhost:5002/api";
 const authBaseUrl = "http://localhost:5001/api";
+const roomBaseUrl = "http://localhost:5005/api";
 const api = axios.create({
-  baseURL: authBaseUrl,
+  baseURL: roomBaseUrl,
   timeout: 10000,
 });
 

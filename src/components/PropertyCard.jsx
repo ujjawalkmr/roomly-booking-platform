@@ -1,4 +1,5 @@
 import "../styles/PropertyCard.css";
+import { useEffect,useState } from "react";
 const properties = [
   {
     id: 1,
@@ -41,7 +42,8 @@ const properties = [
     image: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21",
   },
 ];
-function PropertyCard() {
+function PropertyCard({ roomDetails = [] }) {
+  console.log("roomDetails in PropertyCard:", roomDetails);
   return (
     <div className="property-grid">
       {properties.map((item) => (
