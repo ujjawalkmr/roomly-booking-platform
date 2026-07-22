@@ -25,7 +25,7 @@ If you are developing a production application, we recommend using TypeScript wi
 
 
 ![alt text](Gemini_Generated_Image_3qnnlr3qnnlr3qnn.png)
-
+Aws interview question
 
 1. What is AWS?
 
