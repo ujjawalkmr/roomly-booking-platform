@@ -1,5 +1,6 @@
 import React from 'react';
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import ImageGrid from '../features/roomFeatures/ImageGride';
 import RoomInfo from '../features/roomFeatures/RoomInfo';
 import RoomBookingCard from '../features/roomFeatures/RoomBookingCard';
@@ -10,6 +11,14 @@ import { getAllRoom } from "../api/services/roomService";
 
 
 export default function RoomDetailView() {
+      const location = useLocation();
+
+  const room = location.state?.room;
+  const imageUrl = location.state?.imageUrl;
+
+  console.log("rrrrrrrrrrrrrrrrr",location);
+  console.log("iiiiiiiiiiiiiiiii",imageUrl);
+
     // Mock image payloads from Unsplash matching your original design aesthetic
     const mockImages = [
         { url: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=900&q=80', alt: 'Oceanview Master Suite Bedroom' },

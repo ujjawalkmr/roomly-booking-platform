@@ -11,6 +11,8 @@ export default class RoomModel {
   isAvailable: boolean | null;
 
   description: string | null;
+  title: string | null;
+  subTitle: string | null;
 
   floor: number | null;
   bedType: string | null;
@@ -38,6 +40,8 @@ export default class RoomModel {
     this.isAvailable = data.isAvailable ?? true;
 
     this.description = data.description ?? "";
+    this.title = data.title ?? "";
+    this.subTitle = data.subTitle ?? "";
 
     this.floor = data.floor ?? 0;
     this.bedType = data.bedType ?? "";

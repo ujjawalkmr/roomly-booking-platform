@@ -2,8 +2,12 @@ import axios from "axios";
 const baseUrl = "http://localhost:5002/api";
 const authBaseUrl = "http://localhost:5001/api";
 const roomBaseUrl = "http://localhost:5005/api";
-const api = axios.create({
+export const api = axios.create({
   baseURL: roomBaseUrl,
+  timeout: 10000,
+});
+export const userApi = axios.create({
+  baseURL: "http://localhost:5006/api",
   timeout: 10000,
 });
 
@@ -17,4 +21,4 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-export default api;
+//export default api;
