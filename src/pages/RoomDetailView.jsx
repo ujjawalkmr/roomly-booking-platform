@@ -16,8 +16,8 @@ export default function RoomDetailView() {
   const room = location.state?.room;
   const imageUrl = location.state?.imageUrl;
 
-  console.log("rrrrrrrrrrrrrrrrr",location);
-  console.log("iiiiiiiiiiiiiiiii",imageUrl);
+  console.log("rrrrrr",location);
+  console.log("iiiii",imageUrl);
 
     // Mock image payloads from Unsplash matching your original design aesthetic
     const mockImages = [
