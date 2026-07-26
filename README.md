@@ -137,7 +137,7 @@ Allows private subnet instances to access the internet without exposing them to 
 
 Answer:
 A route table contains rules that determine where network traffic is directed.
-
+///done
 21. What is Elastic IP?
 
 Answer:
