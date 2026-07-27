@@ -164,7 +164,7 @@ Gateway Load Balancer (GWLB)
 
 Answer:
 AWS DNS service used for domain registration and routing internet traffic.
-
+//// done
 26. What is CloudWatch?
 
 Answer:
