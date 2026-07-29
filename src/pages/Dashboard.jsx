@@ -19,27 +19,25 @@ function Dashboard() {
   const fetchProperties = async () => {
     try {
       const data = await getAllProperties();
-      console.log("Properties in Dashboard:", data);
 
       setProperties(data);
     } catch (error) {
       console.error(error);
     }
   };
-   useEffect(() => {
-          fetchAllRooms();
-        }, []);
-      
-        const fetchAllRooms = async () => {
-          try {
-            const data = await getAllRoom();
-            console.log("Properties in Dashboard:", data);
-      
-            setRooms(data);
-          } catch (error) {
-            console.error(error);
-          }
-        };
+  useEffect(() => {
+    fetchAllRooms();
+  }, []);
+
+  const fetchAllRooms = async () => {
+    try {
+      const data = await getAllRoom();
+
+      setRooms(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <section id="dashboard">
       <div>

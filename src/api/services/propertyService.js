@@ -1,5 +1,5 @@
 import PropertyModel from "../../model/PropertyModel";
-import api from "../axiosInstance";
+import {api} from "../axiosInstance.js";
 
 export const getAllProperties = async () => {
   try {

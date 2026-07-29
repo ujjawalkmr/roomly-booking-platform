@@ -17,7 +17,7 @@ const routesConfig = [
     element: LoginPage,
   },
    {
-    path: "/room-detail-view",
+    path: "/room-detail-view/:roomId",
     element: RoomDetailView,
   },
   {

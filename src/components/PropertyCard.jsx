@@ -1,5 +1,8 @@
 import "../styles/PropertyCard.css";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { getAllRoomImage } from "../api/services/roomImageService";
 const properties = [
   {
     id: 1,
@@ -43,33 +46,65 @@ const properties = [
   },
 ];
 function PropertyCard({ roomDetails = [] }) {
+  const [roomImages, setRoomImages] = useState([]);
+  const navigate = useNavigate();
+
   console.log("roomDetails in PropertyCard:", roomDetails);
+  useEffect(() => {
+    fetchAllRoomImages();
+  }, []);
+
+  const fetchAllRoomImages = async () => {
+    try {
+      const data = await getAllRoomImage();
+      setRoomImages(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="property-grid">
-      {properties.map((item) => (
-        <div
-          key={item.id}
-          className="property-card"
-        >
-          <div className="property-image-wrapper">
-            <img
-              src={item.image}
-              alt={item.title}
-              className="property-image"
-            />
-            <div className="property-rating">⭐ {item.rating}</div>
-            <div className="property-price">{item.price}</div>
-          </div>
-          <div className="property-content">
-            <div className="property-text">
-              <h3 className="property-title">{item.title}</h3>
-              <p className="property-rooms">{item.rooms}</p>
-            </div>
+      {roomDetails.map((item) => {
+        const roomImage = roomImages.find((img) => img.roomId === item.id);
 
-            <button className="book-btn">Book Now</button>
+        const imageUrl =
+          roomImage?.images?.find((img) => img.isPrimary)?.imageUrl ??
+          roomImage?.images?.[0]?.imageUrl;
+
+        return (
+          <div
+            key={item.id}
+            className="property-card"
+            onClick={() =>
+              navigate(`/room-detail-view/${item.id}`,{
+      state: {
+        room: {item},
+        imageUrl: {imageUrl},
+      },
+    })
+            }
+          >
+            <div className="property-image-wrapper">
+              <img
+                src={imageUrl}
+                alt={item.roomType}
+                className="property-image"
+              />
+              <div className="property-rating">⭐ {item.rating}4.3</div>
+              <div className="property-price">{item.price}</div>
+            </div>
+            <div className="property-content">
+              <div className="property-text">
+                <h3 className="property-title">{item.title}</h3>
+                <p className="property-rooms">{item.subTitle}</p>
+              </div>
+
+              <button className="book-btn">Book Now</button>
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
